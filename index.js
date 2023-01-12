@@ -23,6 +23,7 @@ async function run() {
     try {
         // console.log('db connected successfully!!!');
         const partsCollection = client.db('pcxMaterial').collection('parts');
+        const ordersCollection = client.db('pcxMaterial').collection('orders');
 
         // API TO: Get or Read all data from the database
         app.get('/parts', async (req, res) => {
@@ -39,6 +40,12 @@ async function run() {
             // No need to declare cursor here. Because we're finding only one item
             const parts = await partsCollection.findOne(query);
             res.send(parts);
+        });
+
+        app.post('/orders', async (req, res) => {
+            const orders = req.body;
+            const result = await ordersCollection.insertOne(orders);
+            res.send(result);
         });
     } finally {
         // client.close();
