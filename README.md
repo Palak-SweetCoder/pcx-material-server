@@ -12,4 +12,5 @@ Basically here applied the CRUD OPERATION (CREATE, READ, UPDATE, DELETE)
 - MongoDB
 - NodeJS
 - ExpressJS
+- Stripe payment process
 - [railway.app](https://railway.app/) to deploy NodeJS API code

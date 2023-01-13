@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -58,11 +59,50 @@ async function run() {
             res.send(orders);
         });
 
+        // API TO: Get or Read specific orders data by id from the database
+        app.get('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const payableOrder = await ordersCollection.findOne(query);
+            res.send(payableOrder);
+        });
+
         // API TO: Get or DELETE specific orders data by id from the database
         app.delete('/orders', async (req, res) => {
             const query = { _id: ObjectId(req.query.id) };
             const result = await ordersCollection.deleteOne(query);
             res.send(result);
+        });
+
+        // API TO: Get or UPDATE specific orders data by id from the database
+        app.patch('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const payment = req.body;
+            const filter = { _id: ObjectId(id) };
+            const updatedDoc = {
+                $set: {
+                    paid: true,
+                    transactionId: payment.transactionId,
+                },
+            };
+            const updatedOrder = await ordersCollection.updateOne(
+                filter,
+                updatedDoc
+            );
+            res.send(updatedDoc);
+        });
+
+        // --------------STRIPE API-------------
+        app.post('/create-payment-intent', async (req, res) => {
+            const parts = req.body;
+            const price = parts.price;
+            const amount = price * 1000;
+            const paymentIntent = await stripe.paymentIntents.create({
+                amount: amount,
+                currency: 'usd',
+                payment_method_types: ['card'],
+            });
+            res.send({ clientSecret: paymentIntent.client_secret });
         });
     } finally {
         // client.close();
