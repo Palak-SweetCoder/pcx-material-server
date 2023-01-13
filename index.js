@@ -25,7 +25,7 @@ async function run() {
         const partsCollection = client.db('pcxMaterial').collection('parts');
         const ordersCollection = client.db('pcxMaterial').collection('orders');
 
-        // API TO: Get or Read all data from the database
+        // API TO: Get or Read all parts data from the database
         app.get('/parts', async (req, res) => {
             const query = {};
             const cursor = partsCollection.find(query);
@@ -33,7 +33,7 @@ async function run() {
             res.send(parts);
         });
 
-        // API TO: Get or Read specific data by id from the database
+        // API TO: Get or Read specific parts data by id from the database
         app.get('/parts/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
@@ -42,9 +42,26 @@ async function run() {
             res.send(parts);
         });
 
+        // API TO: Get or Read all orders data from the database
         app.post('/orders', async (req, res) => {
             const orders = req.body;
             const result = await ordersCollection.insertOne(orders);
+            res.send(result);
+        });
+
+        // API TO: Get or Read specific orders data by id from the database
+        app.get('/orders', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
+            const cursor = ordersCollection.find(query);
+            const orders = await cursor.toArray();
+            res.send(orders);
+        });
+
+        // API TO: Get or DELETE specific orders data by id from the database
+        app.delete('/orders', async (req, res) => {
+            const query = { _id: ObjectId(req.query.id) };
+            const result = await ordersCollection.deleteOne(query);
             res.send(result);
         });
     } finally {
