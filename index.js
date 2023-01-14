@@ -25,6 +25,9 @@ async function run() {
         // console.log('db connected successfully!!!');
         const partsCollection = client.db('pcxMaterial').collection('parts');
         const ordersCollection = client.db('pcxMaterial').collection('orders');
+        const reviewsCollection = client
+            .db('pcxMaterial')
+            .collection('reviews');
 
         // API TO: Get or Read all parts data from the database
         app.get('/parts', async (req, res) => {
@@ -103,6 +106,21 @@ async function run() {
                 payment_method_types: ['card'],
             });
             res.send({ clientSecret: paymentIntent.client_secret });
+        });
+
+        // API TO: Get all reviews data from the database
+        app.get('/reviews', async (req, res) => {
+            const query = {};
+            const cursor = reviewsCollection.find(query);
+            const reviews = await cursor.toArray();
+            res.send(reviews);
+        });
+
+        // API TO: Post a review data into the database
+        app.post('/reviews', async (req, res) => {
+            const clientReview = req.body;
+            const reviews = await reviewsCollection.insertOne(clientReview);
+            res.send(reviews);
         });
     } finally {
         // client.close();
