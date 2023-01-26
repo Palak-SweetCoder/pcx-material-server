@@ -1,16 +1,29 @@
-# MANUFACTURER WEBSITE
 
-## To see the context api live: [CLICK HERE](https://pcx-material-server.up.railway.app/)
+# 🚀 Author:
+
+# [Hi, I'm Palak! 👋](https://github.com/Palak-SweetCoder)
+
+![Logo](https://i.ibb.co/d4YG7vf/pcx-git-banner.png)
+
+## To see the api live: [CLICK HERE](https://pcx-material-server.up.railway.app/)
 
 ## PROJECT DESCRIPTION:
 
-This is a manufacturer and material management website that is all-device responsive. Here you can update your profile, orders and reviews. You have to login before performing any type of interaction.
+This is the server side (backend) of a website for managing manufacturers and materials. It was made with NodeJS, Express, and MongoDB.
 
-Basically here applied the CRUD OPERATION (CREATE, READ, UPDATE, DELETE)
+In general, I'm integrating payment method procedures and using the CRUD activity (CREATE, READ, UPDATE, DELETE).
 
-#### TECHNOLOGY:
-- MongoDB
-- NodeJS
-- ExpressJS
-- Stripe payment process
-- [railway.app](https://railway.app/) to deploy NodeJS API code
+#### TECH STACK:
+✔️ MongoDB
+
+✔️ NodeJS
+
+✔️ ExpressJS
+
+✔️ Stripe payment process
+
+✔️ [railway.app](https://railway.app/) for deployment
+
+## Feedback
+
+If you have any feedback, please reach out to me at pspalak6@gmail.com

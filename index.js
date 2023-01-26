@@ -7,11 +7,11 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 const port = process.env.PORT || 5000;
 
-// -----middleware-----
+// ----->middleware<-----
 app.use(cors());
 app.use(express.json());
 
-// -------mongodb connection---------
+// ------->mongodb connection<---------
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.pwfkf3v.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
     useNewUrlParser: true,
@@ -19,17 +19,17 @@ const client = new MongoClient(uri, {
     serverApi: ServerApiVersion.v1,
 });
 
-// --------------------CRUD FUNCTION START----------------------
+// -------------------->CRUD FUNCTION START<----------------------
 async function run() {
     try {
-        // console.log('db connected successfully!!!');
+        console.log('DB connected successfully!!!');
         const partsCollection = client.db('pcxMaterial').collection('parts');
         const ordersCollection = client.db('pcxMaterial').collection('orders');
         const reviewsCollection = client
             .db('pcxMaterial')
             .collection('reviews');
 
-        // API TO: Get or Read all parts data from the database
+        // ------->API TO: Get or Read all parts data from the database<-------
         app.get('/parts', async (req, res) => {
             const query = {};
             const cursor = partsCollection.find(query);
@@ -37,7 +37,7 @@ async function run() {
             res.send(parts);
         });
 
-        // API TO: Get or Read specific parts data by id from the database
+        // ------->API TO: Get or Read specific parts data by id from the database<-------
         app.get('/parts/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
@@ -46,14 +46,14 @@ async function run() {
             res.send(parts);
         });
 
-        // API TO: Get or Read all orders data from the database
+        // ------->API TO: Get or Read all orders data from the database<-------
         app.post('/orders', async (req, res) => {
             const orders = req.body;
             const result = await ordersCollection.insertOne(orders);
             res.send(result);
         });
 
-        // API TO: Get or Read specific orders data by id from the database
+        // ------->API TO: Get or Read specific orders data by id from the database<-------
         app.get('/orders', async (req, res) => {
             const email = req.query.email;
             const query = { email: email };
@@ -62,7 +62,7 @@ async function run() {
             res.send(orders);
         });
 
-        // API TO: Get or Read specific orders data by id from the database
+        // ------->API TO: Get or Read specific orders data by id from the database<-------
         app.get('/orders/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
@@ -70,14 +70,14 @@ async function run() {
             res.send(payableOrder);
         });
 
-        // API TO: Get or DELETE specific orders data by id from the database
+        // ------->API TO: Get or DELETE specific orders data by id from the database<-------
         app.delete('/orders', async (req, res) => {
             const query = { _id: ObjectId(req.query.id) };
             const result = await ordersCollection.deleteOne(query);
             res.send(result);
         });
 
-        // API TO: Get or UPDATE specific orders data by id from the database
+        // ------->API TO: Get or UPDATE specific orders data by id from the database<-------
         app.patch('/orders/:id', async (req, res) => {
             const id = req.params.id;
             const payment = req.body;
@@ -95,7 +95,7 @@ async function run() {
             res.send(updatedDoc);
         });
 
-        // --------------STRIPE API-------------
+        // -------------->STRIPE API<-------------
         app.post('/create-payment-intent', async (req, res) => {
             const parts = req.body;
             const price = parts.price;
@@ -108,7 +108,7 @@ async function run() {
             res.send({ clientSecret: paymentIntent.client_secret });
         });
 
-        // API TO: Get all reviews data from the database
+        // ------->API TO: Get all reviews data from the database<-------
         app.get('/reviews', async (req, res) => {
             const query = {};
             const cursor = reviewsCollection.find(query);
@@ -116,7 +116,7 @@ async function run() {
             res.send(reviews);
         });
 
-        // API TO: Post a review data into the database
+        // ------->API TO: Post a review data into the database<-------
         app.post('/reviews', async (req, res) => {
             const clientReview = req.body;
             const reviews = await reviewsCollection.insertOne(clientReview);
@@ -127,7 +127,7 @@ async function run() {
     }
 }
 run().catch(console.dir);
-// --------------------CRUD FUNCTION END----------------------
+// -------------------->CRUD FUNCTION END<----------------------
 
 app.get('/', (req, res) => {
     res.send('Hello From PCX Server!');
