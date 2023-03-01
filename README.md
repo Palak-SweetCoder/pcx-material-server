@@ -5,7 +5,7 @@
 
 ![Logo](https://i.ibb.co/d4YG7vf/pcx-git-banner.png)
 
-## To see the api live: [CLICK HERE](https://pcx-material-server.up.railway.app/)
+## To see the api live: [CLICK HERE](https://gentle-rose-purse.cyclic.app/)
 
 ## PROJECT DESCRIPTION:
 
@@ -23,7 +23,7 @@ In general, I'm integrating payment method procedures and using the CRUD activit
 
 ✔️ Stripe payment process
 
-✔️ [railway.app](https://railway.app/) for deployment
+✔️ [cyclic.sh](https://cyclic.sh/) for deployment
 
 ## Feedback
 
